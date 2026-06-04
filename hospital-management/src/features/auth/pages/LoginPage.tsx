@@ -1,6 +1,8 @@
 import React from 'react';
 import login from '../api/LoginAPI.ts';
+import { motion } from 'framer-motion';
 import loginBg from '../../../assets/images/login_portal.png';
+import hospitalLogo from '../../../assets/images/hospital_logo.jpg';
 
 const LoginPage: React.FC = () => {
   const [formState, setFormState] = React.useState({ email: '', password: '' });
@@ -40,29 +42,34 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className={`relative min-h-screen overflow-hidden text-slate-950 z-999999`}
-    style={{
-      backgroundImage: `url('${loginBg}')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-    }}
-    >
+    <>
+      <div className={`relative min-h-screen overflow-hidden text-slate-950 z-999999`}>
+        <motion.div
+          aria-hidden
+          className="absolute inset-0 -z-20"
+          style={{
+            backgroundImage: `url('${loginBg}')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            transformOrigin: 'center',
+            willChange: 'transform',
+          }}
+          initial={{ scale: 1 }}
+          animate={{ scale: [1, 1.08, 1] }}
+          transition={{ duration: 28, repeat: Infinity, repeatType: 'reverse', ease: 'easeInOut' }}
+        />
       <div className="relative z-10 flex min-h-screen items-center justify-center px-6 py-10">
         <div className="
-        w-full md:max-w-xl lg:max-w-2xl xl:max-w-4xl overflow-hidden rounded-4xl border border-white/20 bg-white/10 
+        w-full md:max-w-xl lg:max-w-2xl xl:max-w-3xl overflow-hidden rounded-4xl border border-white/20 bg-white/10 
         shadow-[0_45px_120px_rgba(5,41,64,0.35)] backdrop-blur-xl
         ">
-          <div className="grid gap-8 md:p-8 lg:p-12 xl:p-20">
-            <div className="rounded-[1.75rem] bg-white/95 p-8 shadow-[0_20px_50px_rgba(15,23,42,0.08)] sm:p-10">
-              <div className="mb-8 flex flex-col items-center text-center">
-                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-3xl bg-cyan-50 text-cyan-700 shadow-lg shadow-cyan-500/10">
-                  <svg viewBox="0 0 24 24" fill="none" className="h-8 w-8" aria-hidden="true">
-                    <path d="M12 4v16m8-8H4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </div>
-                <h1 className="text-3xl font-semibold text-slate-950 sm:text-4xl">Welcome Back!</h1>
-                <p className="mt-3 text-sm text-slate-500">Email or No. Handphone</p>
+          <div className="grid gap-8 md:p-8 lg:p-15 lg:py-12 xl:px-25 xl:py-20">
+            <div className="rounded-[1.75rem] bg-white p-8 shadow-[0_20px_50px_rgba(15,23,42,0.08)] sm:p-10">
+              <div className="flex flex-col items-center text-center">
+                  {
+                <img src={hospitalLogo} alt="Hospital Logo" className="mb-4 h-50 w-50 rounded-full object-cover" /> 
+                  }
               </div>
 
               {error && (
@@ -79,7 +86,7 @@ const LoginPage: React.FC = () => {
               <form className="space-y-6" onSubmit={handleSubmit}>
                 <div>
                   <label htmlFor="email" className="mb-3 block text-sm font-semibold text-slate-700">
-                    Email or No. Handphone
+                    Email ID
                   </label>
                   <div className="relative rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 shadow-inner shadow-slate-950/5 focus-within:border-cyan-400 focus-within:ring-2 focus-within:ring-cyan-100">
                     <input
@@ -133,11 +140,6 @@ const LoginPage: React.FC = () => {
                 <span className="h-px flex-1 bg-slate-200" />
               </div>
 
-              <button className="flex w-full items-center justify-center gap-3 rounded-3xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
-                <span className="text-xl">G</span>
-                Continue with Google
-              </button>
-
               <p className="mt-8 text-center text-sm text-slate-500">
                 Dont have an account?{' '}
                 <button type="button" className="font-semibold text-cyan-600 transition hover:text-cyan-700">
@@ -149,6 +151,7 @@ const LoginPage: React.FC = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
