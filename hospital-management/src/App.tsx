@@ -1,4 +1,5 @@
 import './App.css'
+import LoginPage from './features/auth/pages/LoginPage'
 import './styles/globals.css'
 
 function App() {
@@ -7,9 +8,7 @@ function App() {
 
   return (
     <>
-      <div className=" bg-black text-white text-5xl p-10">
-      Tailwind Working
-    </div>
+      <LoginPage />  
     </>
   )
 }
