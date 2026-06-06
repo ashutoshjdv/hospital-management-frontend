@@ -1,7 +1,11 @@
-import { sidebarItems } from '../../../app/config/SidebarItems';
+import { sidebarGroups } from '../../../app/config/SidebarItems';
 
 export const getFirstAccessibleRoute = (authorities: string[]): string => {
-  const visibleItems = sidebarItems.filter((item) => authorities.includes(item.permission));
+  const visibleItems = sidebarGroups
 
-  return visibleItems[0]?.path ?? '/unauthorized';
+    .flatMap((group) => group.items)
+
+    .find((item) => authorities?.includes(item.permission));
+
+  return visibleItems?.path ?? '/unauthorized';
 };

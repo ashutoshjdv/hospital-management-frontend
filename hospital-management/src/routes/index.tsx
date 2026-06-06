@@ -12,12 +12,14 @@ import DoctorsPage from '../features/doctors/pages/DoctorsPage';
 import PatientsPage from '../features/patients/pages/PatientsPage';
 import PermissionRoute from './PermissionRoute';
 import LandingPageRedirect from './LandingPageRedirect';
+import Error401Page from '../shared/errorpages/Error401Page';
 
 const AppRoute = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/unauthorized" element={<Error401Page />} />
         <Route
           path="/"
           element={

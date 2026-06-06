@@ -1,5 +1,6 @@
 import axios from 'axios';
 import type { LoginRequest, LoginResponse } from '../types/LoginTypes';
+import { getAuth } from '../storage/AuthStorage';
 
 interface AxiosErrorResp {
   data?: { message?: string };
@@ -12,6 +13,32 @@ const api = axios.create({
   baseURL: API_BASE,
   headers: { 'Content-Type': 'application/json' },
 });
+
+api.interceptors.request.use(
+  (config) => {
+    const auth = getAuth();
+    if (auth?.token) {
+      config.headers['Authorization'] = `Bearer ${auth.token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('auth');
+
+      window.location.href = '/login';
+    }
+
+    return Promise.reject(error);
+  },
+);
 
 export async function login(payload: LoginRequest): Promise<LoginResponse> {
   try {
