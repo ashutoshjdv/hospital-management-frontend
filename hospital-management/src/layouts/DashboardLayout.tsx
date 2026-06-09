@@ -15,8 +15,8 @@ const DashboardLayout = () => {
           <SidebarInset>
             <main>
               <SidebarTrigger />
-              <Outlet />
               <ModeToggle />
+              <Outlet />
             </main>
           </SidebarInset>
         </SidebarProvider>

@@ -11,6 +11,21 @@ export interface SidebarGroup {
 
 export const sidebarGroups: SidebarGroup[] = [
   {
+    label: 'Administration',
+    items: [
+      {
+        label: 'Users',
+        path: '/users',
+        permission: 'MANAGE_USERS',
+      },
+      {
+        label: 'Roles',
+        path: '/roles',
+        permission: 'MANAGE_ROLES',
+      },
+    ],
+  },
+  {
     label: 'Domains',
     items: [
       {
@@ -37,21 +52,6 @@ export const sidebarGroups: SidebarGroup[] = [
         label: 'Billing',
         path: '/billing',
         permission: 'VIEW_BILLING',
-      },
-    ],
-  },
-  {
-    label: 'Administration',
-    items: [
-      {
-        label: 'Users',
-        path: '/users',
-        permission: 'MANAGE_USERS',
-      },
-      {
-        label: 'Roles',
-        path: '/roles',
-        permission: 'MANAGE_ROLES',
       },
     ],
   },

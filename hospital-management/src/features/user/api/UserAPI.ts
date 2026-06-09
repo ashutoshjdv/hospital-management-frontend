@@ -1,15 +1,15 @@
 import axios from 'axios';
-import type { LoginRequest, LoginResponse } from '../types/LoginTypes';
 import api from '../../../lib/api';
+import type { Users } from '../types/UserTypes';
 
 interface AxiosErrorResp {
   data?: { message?: string };
   statusText?: string;
 }
 
-export async function login(payload: LoginRequest): Promise<LoginResponse> {
+export async function fetchUserData(): Promise<Users> {
   try {
-    const res = await api.post<LoginResponse>('/auth/login', payload);
+    const res = await api.get<Users>('/users');
     return res.data;
   } catch (err: unknown) {
     if (axios.isAxiosError(err)) {
@@ -18,8 +18,22 @@ export async function login(payload: LoginRequest): Promise<LoginResponse> {
       const message = typeof m === 'string' ? m : JSON.stringify(m);
       throw new Error(message, { cause: err });
     }
-    throw new Error('Login failed', { cause: err });
+    throw new Error('Fetch user failed', { cause: err });
   }
 }
 
-export default login;
+export async function assignRoles(
+  userId: string,
+
+  roleIds: string[],
+): Promise<string> {
+  const response = await api.patch(
+    `/users/${userId}/roles`,
+
+    {
+      roleIds,
+    },
+  );
+
+  return response.data;
+}
