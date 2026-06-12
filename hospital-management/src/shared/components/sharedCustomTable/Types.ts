@@ -5,8 +5,12 @@ export interface Column<T, K extends keyof T = keyof T> {
 
   className?: string;
 
+  onlyBigScreen?: boolean;
+
+  position?: string;
+
   render?: (
-    value: unknown,
+    value: T[K],
 
     row: T,
   ) => React.ReactNode;
@@ -24,4 +28,34 @@ export interface DataTableProps<T> {
   toolbarActions?: React.ReactNode;
 
   rowActions?: (row: T) => React.ReactNode;
+
+  filters?: TableFilter[];
+
+  activeFilters?: Record<string, string>;
+
+  onFilterChange?: (
+    key: string,
+
+    value: string,
+  ) => void;
+
+  page?: number;
+
+  totalPages?: number;
+
+  onPageChange?: (page: number) => void;
+}
+
+interface FilterOption {
+  label: string;
+
+  value: string;
+}
+
+export interface TableFilter {
+  key: string;
+
+  label: string;
+
+  options: FilterOption[];
 }

@@ -14,3 +14,16 @@ export interface Permission {
   name: string;
   description: string;
 }
+
+export interface RoleDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  type: 'add' | 'update';
+  role?: Role;
+}
+
+export interface RoleRequest {
+  name: string;
+  description: string;
+  permissionIds: string[];
+}

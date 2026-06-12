@@ -1,8 +1,7 @@
 import React from 'react';
 import { Navigate } from 'react-router';
-import { useAppDispatch, useAppSelector } from '../app/hooks/redux';
-import { setRolesData } from '@/features/roles/store/RoleSlice';
-import { fetchRoles } from '@/features/roles/api/RoleAPI';
+import { useAppSelector } from '../app/hooks/redux';
+// import { fetchRoles } from '@/features/roles/api/RoleAPI';
 
 type ProtectedRoutesProps = {
   children: React.ReactNode;
@@ -12,9 +11,9 @@ const ProtectedRoutes = ({ children }: ProtectedRoutesProps) => {
 
   const auth = useAppSelector((state) => state.auth);
 
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
-  fetchRoles().then((roles) => dispatch(setRolesData(roles)));
+  // fetchRoles().then((roles) => dispatch(setRolesData(roles)));
 
   // dispatch(setRolesData(fetchRoles()));
 

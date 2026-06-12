@@ -7,7 +7,7 @@ export interface User {
   id: string;
   email: string | null;
   status: string | null;
-  isEmailVerified: boolean | null;
+  emailVerified: boolean | null;
   roles: UserRole[];
 }
 

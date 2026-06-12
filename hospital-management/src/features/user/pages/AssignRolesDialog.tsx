@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import type { AssignRolesDialogProp } from '../types/UserTypes';
-import { assignRoles } from '../api/UserAPI';
 import {
   Dialog,
   DialogContent,
@@ -10,10 +9,17 @@ import {
 } from '@/components/ui/dialog';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
-import { useAppSelector } from '@/app/hooks/redux';
+import { useRoles } from '@/features/roles/hooks/useRoles';
+import { useAssignRoles } from '../hooks/useAssignRoles';
+import { SelectSeparator } from '@/components/ui/select';
+// import { useAppSelector } from '@/app/hooks/redux';
 
 const AssignRolesDialog = ({ user, open, onOpenChange }: AssignRolesDialogProp) => {
-  const roles = useAppSelector((state) => state.role.roles);
+  // const roles = useAppSelector((state) => state.role.roles);
+
+  const { mutateAsync, isPending } = useAssignRoles();
+
+  const { data: roles = [] } = useRoles();
 
   const [selectedRoles, setSelectedRoles] = useState<string[]>([]);
 
@@ -30,11 +36,11 @@ const AssignRolesDialog = ({ user, open, onOpenChange }: AssignRolesDialogProp) 
 
   const handleSave = async () => {
     try {
-      await assignRoles(
-        user.id,
+      await mutateAsync({
+        userId: user.id,
 
-        selectedRoles,
-      );
+        roleIds: selectedRoles,
+      });
 
       onOpenChange(false);
     } catch (error) {
@@ -45,14 +51,15 @@ const AssignRolesDialog = ({ user, open, onOpenChange }: AssignRolesDialogProp) 
   return (
     <>
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent>
+        <DialogContent className="">
           <DialogHeader>
-            <DialogTitle>Assign Roles</DialogTitle>
+            <DialogTitle className="md:px-3 md:pt-3 text-primary text-xl">Assign Roles</DialogTitle>
+            <SelectSeparator />
           </DialogHeader>
 
-          <div className="space-y-4">
+          <div className="max-md:space-y-4 space-x-2 grid grid-cols-2">
             {roles.map((role) => (
-              <div key={role.id} className="flex items-center gap-2">
+              <div key={role.id} className="flex items-center gap-2 md:p-3">
                 <Checkbox
                   checked={selectedRoles.includes(role.id)}
                   onCheckedChange={() => toggleRole(role.id)}
@@ -68,7 +75,7 @@ const AssignRolesDialog = ({ user, open, onOpenChange }: AssignRolesDialogProp) 
               Cancel
             </Button>
 
-            <Button onClick={handleSave}>Save</Button>
+            <Button onClick={handleSave}>{isPending ? 'Saving...' : 'Save'}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

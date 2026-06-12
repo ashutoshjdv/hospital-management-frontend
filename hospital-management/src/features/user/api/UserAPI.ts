@@ -1,15 +1,15 @@
 import axios from 'axios';
 import api from '../../../lib/api';
-import type { Users } from '../types/UserTypes';
+import type { User } from '../types/UserTypes';
 
 interface AxiosErrorResp {
   data?: { message?: string };
   statusText?: string;
 }
 
-export async function fetchUserData(): Promise<Users> {
+export async function fetchUserData(): Promise<User[]> {
   try {
-    const res = await api.get<Users>('/users');
+    const res = await api.get<User[]>('/users');
     return res.data;
   } catch (err: unknown) {
     if (axios.isAxiosError(err)) {
@@ -27,7 +27,7 @@ export async function assignRoles(
 
   roleIds: string[],
 ): Promise<string> {
-  const response = await api.patch(
+  const response = await api.put(
     `/users/${userId}/roles`,
 
     {
